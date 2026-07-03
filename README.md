@@ -35,6 +35,7 @@ Depending on the dataset, the model can classify emotions such as:
 * 😠 Anger
 * ❤️ Love
 * 😨 Fear
+* 😲 Surprise
 
 ---
 
