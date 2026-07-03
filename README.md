@@ -55,8 +55,9 @@ Depending on the dataset, the model can classify emotions such as:
 ```
 Emotions-Detection/
 │
-├── dataset/
 ├── Emotions for NLP.py
+├── LICENSE
+├── NLP dataset/
 └── README.md
 ```
 
