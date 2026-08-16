@@ -1,187 +1,375 @@
-# 😊 Emotion Detection
+😊 Emotion Detection
 
-An AI-powered **Emotion Detection** web application that analyzes text and predicts the emotion expressed in it.
+An NLP-based machine learning project that predicts the emotion
+expressed in a piece of text.
 
-The project combines **Natural Language Processing (NLP)** and **Machine Learning** to transform text into numerical features and classify the underlying emotion.
+The project uses text preprocessing, TF-IDF vectorization, and machine
+learning classification to classify text into six emotion categories.
+A Streamlit web application provides an interactive interface for making
+predictions.
 
-## 🚀 Live Demo
+🚀 Live Demo
 
-🔗 **[Try the Emotion Detection App](https://emotions-detection-1-82h8.onrender.com/)**
+👉 [Try the live Emotion Detection
+app](https://emotions-detection-1-82h8.onrender.com/)
 
-## 📂 GitHub Repository
 
-🔗 **[View Source Code](https://github.com/Kunalthakur01/Emotions-Detection)**
+📊 Dataset
 
----
+The project uses the Emotions Dataset for NLP from Kaggle.
 
-## 📌 Project Overview
+Dataset:
+https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp
 
-Emotion Detection is a Natural Language Processing project designed to identify the emotional category expressed in a given piece of text.
+The dataset provides three files:
 
-For example:
+train.txt
 
-```text
-Input:
-I am extremely happy today!
+test.txt
 
-Output:
-😊 Happy
+val.txt
 
-```
-✨ Features
-😊 Emotion classification from text
-📝 Simple text input interface
-⚡ Fast prediction
-🌐 Deployed web application
-🤖 Machine Learning based prediction
-🧹 NLP text preprocessing
-📊 Easy-to-use interface
-🚀 Accessible through a live demo
-🧠 How It Works
+Each record contains a text sentence and its corresponding emotion
+label.
 
-The application follows a typical NLP classification pipeline:
+Example:
 
-User Input
-     ↓
-Text Preprocessing
-     ↓
-Feature Extraction
-     ↓
-Machine Learning Model
-     ↓
+i didnt feel humiliated ; sadness
+i am feeling grouchy ; anger
+
+🎯 Emotion Classes
+
+The dataset contains six emotion categories:
+
+Label Emotion
+
+    0 Sadness
+    1 Anger
+    2 Love
+    3 Surprise
+    4 Fear
+    5 Joy
+
+The deployed application maps the model's numerical predictions to these
+emotion names.
+
+🧠 Project Workflow
+
+Raw Text
+   ↓
+Lowercase Conversion
+   ↓
+Remove Punctuation
+   ↓
+Remove Numbers
+   ↓
+Remove Non-ASCII Characters / Emojis
+   ↓
+Remove Stopwords
+   ↓
+TF-IDF Vectorization
+   ↓
+Machine Learning Classifier
+   ↓
 Emotion Prediction
-     ↓
-Display Result
-1. User Input
+   ↓
+Streamlit Web App
 
-The user enters a sentence or piece of text into the application.
+🔧 Text Preprocessing
 
-2. Text Preprocessing
+The training notebook applies the following preprocessing steps:
 
-The input text is processed so that it can be used by the machine learning model.
+Convert text to lowercase.
 
-Typical NLP preprocessing may include operations such as:
+Remove punctuation.
 
-Cleaning text
-Normalizing text
-Removing unnecessary characters
-Tokenization
-Feature transformation
-3. Feature Extraction
+Remove numeric characters.
 
-The processed text is converted into numerical features that can be understood by the machine learning model.
+Remove non-ASCII characters.
 
-4. Prediction
+Remove English stopwords.
 
-The trained machine learning model receives the numerical representation and predicts the corresponding emotion.
+The same core cleaning process is used by the deployed Streamlit
+application before generating predictions.
 
-5. Result
+📐 TF-IDF Feature Engineering
 
-The predicted emotion is displayed to the user through the web interface.
+The project uses TfidfVectorizer with:
 
-🛠️ Technologies Used
-Programming Language
-Python
-Machine Learning / NLP
-Scikit-learn
-Natural Language Processing
-Text preprocessing
-Feature extraction
-Classification
-Data Processing
-NumPy
-Pandas
-Web Application
-Streamlit
-Deployment
-Render
-Development Tools
-Jupyter Notebook
-VS Code
-Git
-GitHub
+TfidfVectorizer(
+    ngram_range=(1, 2),
+    min_df=2,
+    max_df=0.95,
+    sublinear_tf=True
+)
+
+This means the model uses both:
+
+Unigrams --- individual words
+
+Bigrams --- pairs of consecutive words
+
+min_df=2 removes terms that occur only once, while max_df=0.95
+removes extremely common terms. sublinear_tf=True applies sublinear
+term-frequency scaling.
+
+🤖 Model Experiments
+
+Several classification algorithms were evaluated using the TF-IDF
+representation.
+
+Model                                        Accuracy
+
+Multinomial Naive Bayes + Bag of Words         76.81%
+Multinomial Naive Bayes + TF-IDF               70.19%
+Logistic Regression + TF-IDF                   86.63%
+Linear SVM + TF-IDF                        90.53%
+SGD Classifier + TF-IDF                        90.31%
+Random Forest + TF-IDF                         88.75%
+KNN + TF-IDF                                   72.88%
+
+Best Experimental Model
+
+The best result in the notebook was obtained with Linear SVM:
+
+Accuracy: 90.53%
+
+However, the model saved for the deployed application is Logistic
+Regression, which achieved 86.63% accuracy in the notebook.
+
+This distinction is intentional in this README so the documented
+deployment matches the actual saved model.
+
+📈 Logistic Regression Performance
+
+The Logistic Regression model used for the deployed application
+achieved:
+
+Accuracy: 86.63%
+
+The notebook also evaluated Linear SVM in more detail:
+
+Class        Precision   Recall   F1-score
+
+Sadness           0.93     0.95       0.94
+Anger             0.91     0.88       0.90
+Love              0.85     0.80       0.82
+Surprise          0.86     0.72       0.78
+Fear              0.86     0.85       0.86
+Joy               0.91     0.94       0.93
+
+Linear SVM overall:
+
+Accuracy: 90.53%
+
+Macro F1-score: 0.87
+
+Weighted F1-score: 0.90
+
+🏆 SVM Hyperparameter Experiment
+
+Different values of C were tested for Linear SVM:
+
+  C     Accuracy
+
+0.5       90.44%
+  1   **90.53%**
+  2       90.38%
+  5       89.69%
+  7       89.66%
+ 11       89.34%
+ 19       88.56%
+
+C=1 produced the best accuracy among the tested values.
+
+💾 Saved Model Files
+
+The trained artifacts are saved using Joblib:
+
+emotion_model.pkl
+tfidf_vectorizer.pkl
+
+The Streamlit application loads these files at runtime.
+
+model = joblib.load("emotion_model.pkl")
+vectorizer = joblib.load("tfidf_vectorizer.pkl")
+
+🌐 Streamlit Application
+
+The frontend is implemented using Streamlit.
+
+The application:
+
+Accepts text from the user.
+
+Cleans the text.
+
+Converts it into TF-IDF features.
+
+Passes the features to the trained model.
+
+Maps the numerical prediction to an emotion.
+
+Displays the detected emotion.
+
 📁 Project Structure
+
 Emotions-Detection/
 │
-├── app.py
-├── model/
-│   └── trained_model.pkl
-│
-├── notebook/
-│   └── emotion_detection.ipynb
-│
+├── main.py
+├── emotion_model.pkl
+├── tfidf_vectorizer.pkl
+├── emotions-for-nlp.ipynb
 ├── requirements.txt
 ├── README.md
-└── ...
+├── LICENSE
+└── .gitignore
 
-The exact file structure may vary depending on the current version of the repository.
+Important Files
 
-💻 Installation
+File                                Description
+
+main.py                           Streamlit application and
+prediction logic
+
+emotion_model.pkl                 Saved Logistic Regression model
+used by the app
+
+tfidf_vectorizer.pkl              Saved TF-IDF vectorizer
+
+emotions-for-nlp.ipynb            Data preprocessing, model
+experiments and evaluation
+
+requirements.txt                  Python dependencies
+
+⚙️ Installation
+
 1. Clone the repository
+
 git clone https://github.com/Kunalthakur01/Emotions-Detection.git
-2. Navigate to the project
 cd Emotions-Detection
-3. Create a virtual environment
+
+2. Create a virtual environment
+
 python -m venv venv
-4. Activate the environment
+
+3. Activate the environment
+
 Windows
+
 venv\Scripts\activate
-Linux / macOS
+
+Linux/macOS
+
 source venv/bin/activate
-5. Install dependencies
+
+4. Install dependencies
+
 pip install -r requirements.txt
-6. Run the application
-streamlit run app.py
 
-The application will then open in your browser.
+5. Run the application
 
-🎯 Example
-Input
-I am so excited about my new job!
-Prediction
-😊 Excitement / Positive Emotion
+streamlit run main.py
 
-The exact output depends on the emotion classes supported by the trained model.
+The application will open in your browser.
 
-🌐 Deployment
+📦 Dependencies
 
-The application is deployed using Render.
+The application uses:
 
-Live Application
+streamlit
+numpy==1.26.4
+scikit-learn==1.6.1
+joblib==1.4.2
+nltk==3.9.1
 
-👉 https://emotions-detection-1-82h8.onrender.com/
+🧪 Example
 
-The deployment allows users to interact with the trained machine learning model directly through a web browser without setting up the project locally.
+Input:
 
-📚 Learning Outcomes
+I am extremely happy today!
 
-Through this project, I worked with:
+Possible output:
+
+Detected Emotion
+Joy
+
+The prediction is generated by the trained model and is not a rule-based
+lookup.
+
+🔍 Confusion Matrix
+
+The notebook also evaluates the Linear SVM using a confusion matrix.
+
+The main observed classification challenge is between emotionally
+similar categories, particularly Love/Joy and some of the less
+represented classes such as Surprise.
+
+📚 What I Learned
+
+This project helped me practice:
 
 Natural Language Processing
+
 Text preprocessing
-Feature extraction
-Machine Learning classification
-Model evaluation
-Python data processing
-Streamlit application development
-Model deployment
-Git and GitHub
+
+Stopword removal
+
+TF-IDF vectorization
+
+N-gram feature extraction
+
+Model comparison
+
+Logistic Regression
+
+Linear SVM
+
+Hyperparameter tuning
+
+Classification metrics
+
+Confusion matrix analysis
+
+Model serialization with Joblib
+
+Streamlit development
+
+ML model deployment
+
 🔮 Future Improvements
 
-Some possible improvements for the project are:
+Use the best-performing Linear SVM model in the deployed
+application.
 
-Add more emotion categories
-Improve model accuracy
-Add confidence/probability scores
-Add batch text prediction
-Add visualization of emotion probabilities
-Improve UI/UX
-Add multilingual emotion detection
-Experiment with deep learning and transformer-based NLP models
+Add prediction confidence / decision scores.
+
+Display probabilities or confidence where supported by the model.
+
+Experiment with word embeddings.
+
+Experiment with deep learning approaches.
+
+Try transformer-based models such as BERT.
+
+Add batch prediction.
+
+Improve UI/UX.
+
+Add emotion distribution visualizations.
+
+Evaluate the final deployed model on the provided validation/test
+sets separately.
+
 👨‍💻 Author
+
 Kunal Singh
 
-BCA Student | Machine Learning & Data Science Enthusiast
+Machine Learning & Data Science Enthusiast
 
-Connect With Me
-GitHub: @Kunalthakur01
+GitHub: https://github.com/Kunalthakur01
+
+⭐ Support
+
+If you found this project useful, consider giving the repository a ⭐ on
+GitHub.
