@@ -1,13 +1,13 @@
 # 😊 Emotion Detection using Natural Language Processing (NLP)
 
 > An NLP-based Emotion Detection system that analyzes text and predicts the underlying emotion using machine learning and natural language processing techniques.
-Dataset link : https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp
+
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 ![NLP](https://img.shields.io/badge/NLP-Emotion%20Detection-green)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange)
 
 ---
-
+Dataset link : https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp
 # 📌 Project Overview
 
 Emotion Detection is a Natural Language Processing (NLP) project that identifies the emotional tone expressed in textual data. The system processes input text, converts it into numerical features, and predicts the corresponding emotion using a trained machine learning model.
