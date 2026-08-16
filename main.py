@@ -19,7 +19,7 @@ emotion_labels = {
     4: "Fear",
     5: "Joy"
 }
-
+nltk.download("stopwords")
 
 stop_words = set(stopwords.words("english"))
 
