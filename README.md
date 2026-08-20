@@ -13,10 +13,7 @@ predictions.
 👉 [Try the live Emotion Detection
 app](https://emotions-detection-1-82h8.onrender.com/)
 
-## 📂 GitHub Repository
 
-👉 [View the source code on
-GitHub](https://github.com/Kunalthakur01/Emotions-Detection)
 
 ## 📊 Dataset
 
